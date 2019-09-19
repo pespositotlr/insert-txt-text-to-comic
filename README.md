@@ -62,11 +62,9 @@ If a line only has text surrounded by []s in it, that line will be ignored. So y
 
 
 The program will match the page filenames with the page numbers in the script.
-
 It assumes that the first line after a line break is the start of a new "page" and so it has a page number in it. 
 
 It uses regex to just get the last numerical value and treats this as the "key". 
-
 So if the script has a double-page spread like "003-004", then the code will just assume this as page 4 as the "key" to match the script page and the .psd.
 
 The program will go through the pages in numerical order based on the order the .psds and insert each line. It will strip out the speaker text and the comment text in brackets, and will skip a line if there's no text in it after the comment is stripped out. It will add them in script order, so the bottom layer will be the first line. It will arrange them on the page in a "grid" shape with up to 4 lines per row in textboxes. This is meant to be a sort of "best guess" for where the lines go without analyzing the .psd's image itself. The font size is always 14 as of now. Most text will use the default font, but this can be overridden by using the speakerFontPairs variable noted below.
@@ -75,7 +73,6 @@ The program will go through the pages in numerical order based on the order the 
 These two variables at the top of the script can be edited if you so choose, they're meant to automate some of the styling process.
 
 `var speakerTextsToKeepInLineText = [ 'T/N',
-
 'Note'];`
 
 
@@ -88,17 +85,11 @@ SFX: BANG
 Rather than just "BANG".
 
 `var speakerFontPairs = {
-
-  defaultFont: "WildWordsCustomRoman",
-  
-  "SFX": "BottenbrekerT.V.",
-  
-  "FX": "BottenbrekerT.V.",
-  
-  "Handwritten": "WashedPurple1",
-  
-  "Hand": "WashedPurple1"
-  
+  defaultFont: "WildWordsCustomRoman",  
+  "SFX": "BottenbrekerT.V.",  
+  "FX": "BottenbrekerT.V.",  
+  "Handwritten": "WashedPurple1",  
+  "Hand": "WashedPurple1"  
 };`
 
 If you know from the script what font something should be, you can add it to the "speakerFontPairs" list. 
