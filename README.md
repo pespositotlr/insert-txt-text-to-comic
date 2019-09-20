@@ -1,4 +1,4 @@
-# insert-txt-text-to-comic
+# Insert Txt to Comic
 Imports text from a .txt file to .psds for use in a comic.
 
 Based originally on this script by tokuredit: https://community.adobe.com/t5/Photoshop/Script-that-adds-a-layer-of-text-with-the-name-of-the-selected/td-p/9152502
