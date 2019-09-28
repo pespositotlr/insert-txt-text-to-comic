@@ -1,4 +1,4 @@
-    //Based on this cript by tokuredit 
+    //Based on this script by tokuredit 
 	//From here: https://community.adobe.com/t5/Photoshop/Script-that-adds-a-layer-of-text-with-the-name-of-the-selected/td-p/9152502
 	//Useful for textlayer values http://jongware.mit.edu/pscs5js_html/psjscs5/pc_TextItem.html
 	//Javascript docs: https://www.adobe.com/content/dam/acom/en/devnet/photoshop/pdfs/photoshop-cc-javascript-ref-2015.pdf
@@ -30,8 +30,8 @@
 		if (selectedPSDs == null) return;
 		if (selectedPSDs.length == 0) return;
 		
-		//Select translation script
-		var txtFile = File.openDialog("Please select translation txt.","TXT File:*.txt");  			
+		//Select script
+		var txtFile = File.openDialog("Please select input text txt.","TXT File:*.txt");  			
 		if (txtFile == null) return;  
 		if (txtFile.length == 0) return;
 		
@@ -219,7 +219,7 @@
 			//Don't remove speaker text lines that need it, like notes.
 			for (j = 0; j < speakerTextsToKeepInLineText.length; j++){  
 				if (speakerTextsToKeepInLineText[j].toLowerCase() == speakerText.toLowerCase()) {
-					lineText = speakerText + ':' + line;
+					lineText = speakerText + ':' + lineText;
 				}
 				
 			}
