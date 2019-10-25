@@ -71,7 +71,7 @@
 		
 		//Create a text layer for each line
 		for (i = 0; i < currentPageLines.length; i++){
-			createTextLayer(currentPageLines[i].speaker, currentPageLines[i].line, getTextboxPositionXY(i,currentPageLines.length));  
+			createTextLayer(currentPageLines[i].speaker, currentPageLines[i].line, i, currentPageLines.length);  
 		}  
 	}
 	
@@ -82,7 +82,7 @@
 		return txtFileData;
 	}
 	
-    function createTextLayer(speaker, line, positionXY) {    
+    function createTextLayer(speaker, line, lineIndex, currentPageLinesCount) {    
 		var startRulerUnits = app.preferences.rulerUnits;  
 		app.preferences.rulerUnits = Units.PIXELS;  
 				
@@ -107,9 +107,9 @@
 		
 		//Size and position
 		var doc = activeDocument;
-		textProperty.width = (doc.width.value / 6);
-		textProperty.height = 300;
-		textProperty.position = positionXY; //Array with two values (X,Y)
+		textProperty.width = getTextboxWidth(doc, speaker, line);
+		textProperty.height = getTextboxHeight(doc, speaker, line);
+		textProperty.position = getTextboxPositionXY(lineIndex, currentPageLinesCount); //Array with two values (X,Y)
 		textProperty.justification = Justification.CENTER
 		
 		textProperty.contents = line;   
@@ -242,7 +242,7 @@
 	//Origin (0,0) is the upper left corner
 	//Box height is 300, width is 1/4th of the canvas
 	//Textboxes should order from right to left
-	function getTextboxPositionXY(index,totalLines) {
+	function getTextboxPositionXY(index, currentPageLinesCount) {
 		
 		var doc = activeDocument;
 		var documentWidth = doc.width.value;
@@ -253,7 +253,7 @@
 		
 		var doc = activeDocument;
 		var documentHeight = doc.height.value;
-		var numberOfRows = Math.ceil(totalLines / 4);
+		var numberOfRows = Math.ceil(currentPageLinesCount / 4);
 		var currentRow = Math.floor(index / 4); //First row is 0
 				
 		var outputY =  ((currentRow) * 300 + 50);	
@@ -261,6 +261,34 @@
 		return Array(outputX, outputY);
 		
 	}	
+	
+	
+	function getTextboxHeight(doc, speaker, line) {
+		
+		if (line.length < 30)
+		{
+			return 80;
+		}
+		
+		return Math.floor(line.length/20) + 80;
+		
+	}
+	
+	function getTextboxWidth(doc, speaker, line) {
+		
+		if (line.length < 10)
+		{
+			return 30;
+		} else if (line.length < 80)
+		{
+			return 40;
+		} else if (line.length < 140)
+		{
+			return 50;
+		}
+		
+		return (doc.width.value / 6);
+	}
 	
 	function getFontName(speaker) {
 		
