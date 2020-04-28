@@ -1,4 +1,4 @@
-    //Based on this script by tokuredit 
+    //Based on this cript by tokuredit 
 	//From here: https://community.adobe.com/t5/Photoshop/Script-that-adds-a-layer-of-text-with-the-name-of-the-selected/td-p/9152502
 	//Useful for textlayer values http://jongware.mit.edu/pscs5js_html/psjscs5/pc_TextItem.html
 	//Javascript docs: https://www.adobe.com/content/dam/acom/en/devnet/photoshop/pdfs/photoshop-cc-javascript-ref-2015.pdf
@@ -11,27 +11,56 @@
 	#target photoshop;  
 	
 	var speakerTextsToKeepInLineText = [ 'T/N',
-	'Note'];
+	'Note'];	
 	
-	//Use lowercase speakers and "PostScript Names" for fonts
-	var speakerFontPairs = {
+	var speakerFontPairs = {};
+	
+	var speakerFontPairsStyle1 = {
+		 defaultFont: "CCJoeKubert",
+		 "SFX": "CCJeffCampbell-Regular",
+		 "FX": "CCJeffCampbell-Regular",
+		 "Handwritten": "CCDearDiary",
+		 "Hand": "CCDearDiary"
+	};
+	
+	var speakerFontPairsStyle2 = {
 		defaultFont: "WildWordsCustomRoman",
 		"SFX": "BottenbrekerT.V.",
 		"FX": "BottenbrekerT.V.",
 		"Handwritten": "WashedPurple1",
 		"Hand": "WashedPurple1"
+	};	
+		
+	var speakerFontSizePairs = {};
+	
+	var speakerFontSizePairsStyle1 = {
+		 defaultFontSize: 16,
+		 "SFX": 18,
+		 "FX": 18,
+		 "Handwritten": 18,
+		 "Hand": 18
 	};
 	
     main();
     function main(){  		
+	
+		//Set fonts that map to speakers. 
+		//Use lowercase speakers and "PostScript Names" for fonts
+		//Different manga can use differen styles, hardcoded above
+		speakerFontPairs = speakerFontPairsStyle1;
+		
+		//Set custom sizes for each speaker. 
+		//Defaults to "defaultFontSIze".
+		speakerFontSizePairs = speakerFontSizePairsStyle1;
+			
 		//Select PSDs to import text to
 		var selectedPSDs = [];
 		selectedPSDs = File.openDialog("Please select your psds to import text to.","*.PSD; *PSD", true); 
 		if (selectedPSDs == null) return;
 		if (selectedPSDs.length == 0) return;
 		
-		//Select script
-		var txtFile = File.openDialog("Please select input text txt.","TXT File:*.txt");  			
+		//Select translation script
+		var txtFile = File.openDialog("Please select translation txt.","TXT File:*.txt");  			
 		if (txtFile == null) return;  
 		if (txtFile.length == 0) return;
 		
@@ -67,7 +96,7 @@
 		var currentPage = pages[currentPageNumberIndex];
 				
 		//Clean and construct lines		
-		var currentPageLines = constructLines(currentPage.split('\n'));
+		var currentPageLines = constructLineObjectsForPage(currentPage.split('\n'));
 		
 		//Create a text layer for each line
 		for (i = 0; i < currentPageLines.length; i++){
@@ -82,18 +111,20 @@
 		return txtFileData;
 	}
 	
-    function createTextLayer(speaker, line, lineIndex, currentPageLinesCount) {    
+    function createTextLayer(speaker, line, lineIndex, currentPageLinesLength) {    
 		var startRulerUnits = app.preferences.rulerUnits;  
+		
+		//Set units to pixels
 		app.preferences.rulerUnits = Units.PIXELS;  
 				
+		//Add Text layer
 		var thisLayer = activeDocument.artLayers.add();   
-		thisLayer.kind = LayerKind.TEXT;   
-		thisLayer.name = line;   
+		thisLayer.kind = LayerKind.TEXT;    
 		var textProperty = thisLayer.textItem;   
 		textProperty.kind = TextType.PARAGRAPHTEXT;  
 		
 		//Font Size  
-		textProperty.size = 14;   
+		textProperty.size = getFontSize(speaker);
 		textProperty.font = getFontName(speaker);   
 		var newColor = new SolidColor();   
 		
@@ -107,13 +138,15 @@
 		
 		//Size and position
 		var doc = activeDocument;
-		textProperty.width = getTextboxWidth(doc, speaker, line);
-		textProperty.height = getTextboxHeight(doc, speaker, line);
-		textProperty.position = getTextboxPositionXY(lineIndex, currentPageLinesCount); //Array with two values (X,Y)
+		textProperty.width = getTextboxWidth(doc, line);
+		textProperty.height = getTextboxHeight(doc, line);
+		textProperty.position = getTextboxPositionXY(lineIndex, currentPageLinesLength); //Array with two values (X,Y)
 		textProperty.justification = Justification.CENTER
 		
+		//Layer name defaults to the contents value
 		textProperty.contents = line;   
 		
+		//Set units back to original value
 		app.preferences.rulerUnits = startRulerUnits;  
     }; 
 	
@@ -194,7 +227,8 @@
 		this.extraText = extraText;
 	}
 		
-	function constructLines(currentPageArrayOfLines) {
+	//Creates array of objects holding the speaker, line text, and extra text in square brackets
+	function constructLineObjectsForPage(currentPageArrayOfLines) {
 		
 		var pageLines = [];
 		var speakerText = '';
@@ -242,7 +276,7 @@
 	//Origin (0,0) is the upper left corner
 	//Box height is 300, width is 1/4th of the canvas
 	//Textboxes should order from right to left
-	function getTextboxPositionXY(index, currentPageLinesCount) {
+	function getTextboxPositionXY(index,totalLines) {
 		
 		var doc = activeDocument;
 		var documentWidth = doc.width.value;
@@ -253,7 +287,7 @@
 		
 		var doc = activeDocument;
 		var documentHeight = doc.height.value;
-		var numberOfRows = Math.ceil(currentPageLinesCount / 4);
+		var numberOfRows = Math.ceil(totalLines / 4);
 		var currentRow = Math.floor(index / 4); //First row is 0
 				
 		var outputY =  ((currentRow) * 300 + 50);	
@@ -262,33 +296,51 @@
 		
 	}	
 	
-	
-	function getTextboxHeight(doc, speaker, line) {
-		
-		if (line.length < 30)
+	function getTextboxWidth(doc, lineText)
+	{
+		if (lineText.length < 10)
 		{
-			return 80;
+			return 100;
+		} else if (lineText.length < 20)
+		{
+			return doc.width.value / 8;
 		}
 		
-		return Math.floor(line.length/20) + 80;
-		
+		return doc.width.value / 6;
 	}
 	
-	function getTextboxWidth(doc, speaker, line) {
-		
-		if (line.length < 10)
-		{
-			return 30;
-		} else if (line.length < 80)
-		{
-			return 40;
-		} else if (line.length < 140)
+	function getTextboxHeight(doc, lineText)
+	{
+		if (lineText.length < 10)
 		{
 			return 50;
+		} else if (lineText.length < 30)
+		{
+			return 100;
+		} else if (lineText.length < 90)
+		{
+			return 150;
 		}
 		
-		return (doc.width.value / 6);
+		return 250;
 	}
+	
+	function getFontSize(speaker) {
+		
+		var fontSize = speakerFontSizePairs.defaultFontSize;
+		
+		//Allow for dynamically changing font size on speaker text
+		for(var key in speakerFontSizePairs) {
+			var mappedFontSize = speakerFontSizePairs[key];
+			if (speaker.toLowerCase() == key.toLowerCase()) {
+				fontSize = mappedFontSize;
+			}
+		}
+		
+		return fontSize;
+	
+	}
+	
 	
 	function getFontName(speaker) {
 		
@@ -307,3 +359,5 @@
 		return fontName;
 					
 	}
+	
+	
