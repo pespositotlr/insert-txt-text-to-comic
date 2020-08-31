@@ -17,10 +17,13 @@
 	
 	var speakerFontPairsStyle1 = {
 		 defaultFont: "CCJoeKubert",
-		 "SFX": "CCJeffCampbell-Regular",
-		 "FX": "CCJeffCampbell-Regular",
+		 "SFX": "CCJeffCampbell",
+		 "FX": "CCJeffCampbell",
 		 "Handwritten": "CCDearDiary",
-		 "Hand": "CCDearDiary"
+		 "Hand": "CCDearDiary",
+		 "T/N": "HighwayGothicNarrow",
+		 "Thought": "SanDiego2005BB",
+		 "Thoughts": "SanDiego2005BB"
 	};
 	
 	var speakerFontPairsStyle2 = {
@@ -30,7 +33,25 @@
 		"Handwritten": "WashedPurple1",
 		"Hand": "WashedPurple1"
 	};	
+	
+	var speakerFontPairsStyle3 = {
+		defaultFont: "SanDiego2005BB",
+		"SFX": "BottenbrekerT.V.",
+		"FX": "BottenbrekerT.V.",
+		"Handwritten": "WashedPurple1",
+		"Hand": "WashedPurple1",
+		"Yell": "SanDiego2002"
+	};	
 		
+	var speakerFontPairsStyle4 = {
+		 defaultFont: "CCJoeKubert",
+		 "SFX": "CCJeffCampbell",
+		 "FX": "CCJeffCampbell",
+		 "Handwritten": "CCDearDiary",
+		 "Hand": "CCDearDiary",
+		 "T/N": "HighwayGothicNarrow"
+	};	
+	
 	var speakerFontSizePairs = {};
 	
 	var speakerFontSizePairsStyle1 = {
@@ -41,13 +62,21 @@
 		 "Hand": 18
 	};
 	
+	var speakerFontSizePairsStyle3 = {
+		 defaultFontSize: 16,
+		 "SFX": 18,
+		 "FX": 18,
+		 "Handwritten": 16,
+		 "Hand": 16
+	};
+	
     main();
     function main(){  		
 	
 		//Set fonts that map to speakers. 
 		//Use lowercase speakers and "PostScript Names" for fonts
 		//Different manga can use differen styles, hardcoded above
-		speakerFontPairs = speakerFontPairsStyle1;
+		speakerFontPairs = speakerFontPairsStyle2;
 		
 		//Set custom sizes for each speaker. 
 		//Defaults to "defaultFontSIze".
@@ -125,7 +154,7 @@
 		
 		//Font Size  
 		textProperty.size = getFontSize(speaker);
-		textProperty.font = getFontName(speaker);   
+		textProperty.font = getFontName(speaker, line);   
 		var newColor = new SolidColor();   
 		
 		//Font Color  
@@ -300,13 +329,17 @@
 	{
 		if (lineText.length < 10)
 		{
-			return 100;
+			return 80;
 		} else if (lineText.length < 20)
 		{
-			return doc.width.value / 8;
+			return 100;
+		}
+		else if (lineText.length < 35)
+		{
+			return doc.width.value / 10;
 		}
 		
-		return doc.width.value / 6;
+		return doc.width.value / 8;
 	}
 	
 	function getTextboxHeight(doc, lineText)
@@ -342,7 +375,7 @@
 	}
 	
 	
-	function getFontName(speaker) {
+	function getFontName(speaker, line) {
 		
 		//Font name (May allow user to change this if we want)
 		//Must be "PostScript Name".
