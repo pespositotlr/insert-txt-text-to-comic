@@ -84,6 +84,10 @@ SFX: BANG
 
 Rather than just "BANG".
 
+If you know from the script what font something should be, you can add it to the "speakerFontPairs" list. 
+The "defaultFont" should be the most commonly used font. If it's not in the list it will use that one.
+Making sound effects have a separate font should save time figuring out which fonts are regular spoken lines and which are sound effects or signs.
+
 `var speakerFontPairs = {
   defaultFont: "WildWordsCustomRoman",  
   "SFX": "BottenbrekerT.V.",  
@@ -92,11 +96,32 @@ Rather than just "BANG".
   "Hand": "WashedPurple1"  
 };`
 
-If you know from the script what font something should be, you can add it to the "speakerFontPairs" list. 
+Put ALLCAPS at the end of the font name to force caps
+Add HORIZONTALSCALING### for horizontal scaling
+Add VERTICALSCALING### for vertical scaling
+Using multiple of these cutsom options in one font is OK.
 
-The "defaultFont" should be the most commonly used font.
+`	var speakerFontPairsStyle = {
+		 defaultFont: "CCJoeKubertVERTICALSCALING120",
+		 "SFX": "DKLiquidEmbraceVERTICALSCALING120",
+		 "FX": "DKLiquidEmbraceVERTICALSCALING120",
+		 "Handwritten": "CloudsplitterLCBB-BoldVERTICALSCALING140HORIZONTALSCALING120",
+		 "Sign": "CCMarianChurchland-Regular",
+		 "Title": "TetsubinGothic-RegularALLCAPSVERTICALSCALING120HORIZONTALSCALING95"
+	};`
 
-Making sound effects have a separate font should save time figuring out which fonts are regular spoken lines and which are sound effects or signs.
+You can also do this for font sizes, to help save time if one font is always smaller/bigger than others.
+
+`var speakerFontSizePairs = {
+		 defaultFontSize: 16,
+		 "SFX": 18,
+		 "FX": 18,
+		 "Handwritten": 16,
+		 "Hand": 16
+};`
+
+I have some example styles I've used instantiated at the top of the file. Feel free to add your own or base off of those.
+At the beginning of the "main()" function you can swap out a speakerFontPairs instance or speakerFontSizePairs instance. Functionally letting you have a bunch of presets you can easily swap in or out.
 
 
 **Possible future updates/ideas:
