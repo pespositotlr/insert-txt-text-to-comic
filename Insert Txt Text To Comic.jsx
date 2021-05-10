@@ -15,11 +15,6 @@
 	
 	var speakerFontPairs = {};
 	
-	//Swap in instances of which fonts go to which speaker text.
-	//Put ALLCAPS at the end of the font name to force caps
-	//Add HORIZONTALSCALING### for horizontal scaling
-	//Add VERTICALSCALING### for vertical scaling
-	//Using multiple in one font is OK.
 	var speakerFontPairsStyle1 = {
 		 defaultFont: "CCJoeKubert",
 		 "SFX": "CCJeffCampbell",
@@ -57,44 +52,6 @@
 		 "T/N": "HighwayGothicNarrow"
 	};	
 	
-	var speakerFontPairsStyle5 = {
-		 defaultFont: "WildWordsCustomRoman",
-		 "SFX": "WildWordsCustomRoman",
-		 "FX": "WildWordsCustomRoman",
-		 "Handwritten": "WashedPurple1",
-		 "Hand": "WashedPurple1",
-		 "Narr": "DigitalStrip",
-		 "Narration": "DigitalStrip",
-		 "Order": "DigitalStrip",
-		 "T/N": "WildWordsCustomRoman"
-	};	
-	
-	var speakerFontPairsStyle6 = {
-		 defaultFont: "CCJoeKubertVERTICALSCALING120",
-		 "SFX": "DKLiquidEmbraceVERTICALSCALING120",
-		 "FX": "DKLiquidEmbraceVERTICALSCALING120",
-		 "Handwritten": "CloudsplitterLCBB-BoldVERTICALSCALING140HORIZONTALSCALING120",
-		 "Hand": "CloudsplitterLCBB-BoldVERTICALSCALING140HORIZONTALSCALING120",
-		 "Narr": "CCJeffCampbell",
-		 "Narration": "CCJeffCampbell",
-		 "T/N": "WildWordsCustomRoman",
-		 "Sign": "CCMarianChurchland-Regular",
-		 "Title": "TetsubinGothic-RegularALLCAPSVERTICALSCALING120HORIZONTALSCALING95"
-	};	
-	
-	var speakerFontPairs7 = {
-		 defaultFont: "CCFaceFrontALLCAPS",
-		 "SFX": "CCShoutOut",
-		 "FX": "CCShoutOut",
-		 "Handwritten": "AhnbergHand",
-		 "Hand": "AhnbergHand",
-		 "Narr": "SanDiego2002",
-		 "Narration": "SanDiego2002",
-		 "Thought": "CCALikelyStory",
-		 "Thoughts": "CCALikelyStory",
-		 "T/N": "BlueHighway-Regular"
-	};	
-	
 	var speakerFontSizePairs = {};
 	
 	var speakerFontSizePairsStyle1 = {
@@ -105,23 +62,12 @@
 		 "Hand": 18
 	};
 	
-	var speakerFontSizePairsStyle2 = {
+	var speakerFontSizePairsStyle3 = {
 		 defaultFontSize: 16,
 		 "SFX": 18,
 		 "FX": 18,
 		 "Handwritten": 16,
 		 "Hand": 16
-	};
-	
-	var speakerFontSizePairsStyle3 = {
-		 defaultFontSize: 22,
-		 "SFX": 22,
-		 "FX": 22,
-		 "Handwritten": 20,
-		 "Hand": 20,
-		 "Narr": 22,
-		 "Narration": 24,
-		 "Order": 22
 	};
 	
     main();
@@ -130,11 +76,11 @@
 		//Set fonts that map to speakers. 
 		//Use lowercase speakers and "PostScript Names" for fonts
 		//Different manga can use differen styles, hardcoded above
-		speakerFontPairs = speakerFontPairsStyle1;
+		speakerFontPairs = speakerFontPairsStyle2;
 		
 		//Set custom sizes for each speaker. 
 		//Defaults to "defaultFontSIze".
-		speakerFontSizePairs = speakerFontSizePairsStyle2;
+		speakerFontSizePairs = speakerFontSizePairsStyle1;
 			
 		//Select PSDs to import text to
 		var selectedPSDs = [];
@@ -208,18 +154,7 @@
 		
 		//Font Size  
 		textProperty.size = getFontSize(speaker);
-		
-		//Check for forced ALL CAPS (Fontname will have ALLCAPS at the end)
-		var fontName = getFontName(speaker, line);   
-		textProperty.capitalization = getCapitalization(fontName);
-		
-		//Check for forced horizontal/vertical scaling. (Fontname will have VERTICALSCALING### or HORIZONTALSCALING### at the end)
-		textProperty.horizontalScale = getHorizontalScaling(fontName);
-		textProperty.verticalScale = getVerticalScaling(fontName);
-		
-		//Set Font name (Strip out the properties for caps/scaling)
-		textProperty.font = getRegularFontName(fontName);
-		
+		textProperty.font = getFontName(speaker, line);   
 		var newColor = new SolidColor();   
 		
 		//Font Color  
@@ -347,7 +282,7 @@
 			//Don't remove speaker text lines that need it, like notes.
 			for (j = 0; j < speakerTextsToKeepInLineText.length; j++){  
 				if (speakerTextsToKeepInLineText[j].toLowerCase() == speakerText.toLowerCase()) {
-					lineText = speakerText + ': ' + lineText;
+					lineText = speakerText + ':' + lineText;
 				}
 				
 			}
@@ -420,7 +355,7 @@
 			return 150;
 		}
 		
-		return lineText.length * 3 + 20;
+		return 250;
 	}
 	
 	function getFontSize(speaker) {
@@ -458,60 +393,4 @@
 					
 	}
 	
-	//Strips out added options like ALLCAPSS and VERTICALSCALING and HORIZONTALSCALING
-	function getRegularFontName(fontName) {
-		
-		fontName = fontName.slice(0, fontName.toLowerCase().indexOf("allcaps"));
-		
-		if (fontName.toLowerCase().indexOf("verticalscaling") > 0)
-		{
-			fontName = fontName.slice(0, fontName.toLowerCase().indexOf("verticalscaling"));
-		}	
-		
-		if (fontName.toLowerCase().indexOf("horizontalscaling") > 0)
-		{
-			fontName = fontName.slice(0, fontName.toLowerCase().indexOf("horizontalscaling"));
-		}	
-		
-		return fontName;
-			
-	}
 	
-	function getCapitalization(fontName) {
-		
-		if (fontName.toLowerCase().indexOf("allcaps") > 0)
-		{
-			return TextCase.ALLCAPS;			
-		}	
-		
-		return TextCase.NORMAL;
-		
-	}
-	
-	function getHorizontalScaling(fontName) {	
-	
-		//Assume the scale number is 3 digits
-		if (fontName.toLowerCase().indexOf("horizontalscaling") > 0)
-		{
-			var startingIndex = fontName.toLowerCase().indexOf("horizontalscaling") + 17;
-			var endingIndex = fontName.toLowerCase().indexOf("horizontalscaling") + 20
-			return parseInt(fontName.slice(startingIndex, endingIndex));
-		}
-		
-		return 100;
-		
-	}
-	
-	function getVerticalScaling(fontName) {		
-	
-		//Assume the scale number is 3 digits
-		if (fontName.toLowerCase().indexOf("verticalscaling") > 0)
-		{
-			var startingIndex = fontName.toLowerCase().indexOf("verticalscaling") + 15;
-			var endingIndex = fontName.toLowerCase().indexOf("verticalscaling") + 18
-			return parseInt(fontName.slice(startingIndex, endingIndex));
-		}
-		
-		return 100;
-		
-	}
