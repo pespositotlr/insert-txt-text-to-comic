@@ -67,11 +67,14 @@
 		 "FX": "DKLiquidEmbraceVERTICALSCALING120",
 		 "Handwritten": "CloudsplitterLCBB-BoldVERTICALSCALING140HORIZONTALSCALING120",
 		 "Hand": "CloudsplitterLCBB-BoldVERTICALSCALING140HORIZONTALSCALING120",
-		 "Narr": "CCJeffCampbell",
-		 "Narration": "CCJeffCampbell",
+		 "Narr": "CCJeffCampbellVERTICALSCALING120",
+		 "Narration": "CCJeffCampbellVERTICALSCALING120",
+		 "Box": "CCJeffCampbellVERTICALSCALING120",
 		 "T/N": "CCJoeKubertVERTICALSCALING120",
 		 "Sign": "CCMarianChurchland-Regular",
-		 "Title": "TetsubinGothic-RegularALLCAPSVERTICALSCALING120HORIZONTALSCALING95"
+		 "Title": "TetsubinGothic-RegularALLCAPSVERTICALSCALING120HORIZONTALSCALING95",
+		 "Announcer": "CCHushHush-RegularVERTICALSCALING120",
+		 "Ann": "CCHushHush-RegularVERTICALSCALING120"
 	};	
 	
 	var speakerFontPairs6 = {
@@ -87,33 +90,59 @@
 		 "T/N": "BlueHighway-Regular"
 	};	
 	
+	var speakerFontPairs7 = {
+		 defaultFont: "ReadyforAnythingBB-RegularVERTICALSCALING140HORIZONTALSCALING140",
+		 "SFX": "FullBleedBB",
+		 "FX": "FullBleedBB",
+		 "Handwritten": "CCScoundrel-Bold",
+		 "Hand": "CCScoundrel-Bold",
+		 "Narr": "CCSoliloquous-RegularALLCAPSHORIZONTALSCALING90",
+		 "Narration": "CCSoliloquous-RegularALLCAPSHORIZONTALSCALING90",
+		 "Radio": "NightmarkBB-RegularVERTICALSCALING140HORIZONTALSCALING130",
+		 "Recorder": "NightmarkBB-RegularVERTICALSCALING140HORIZONTALSCALING130",
+		 "Tape": "NightmarkBB-RegularVERTICALSCALING140HORIZONTALSCALING130",
+		 "Phone": "NightmarkBB-RegularVERTICALSCALING140HORIZONTALSCALING130",
+		 "TV": "NightmarkBB-RegularVERTICALSCALING140HORIZONTALSCALING130",
+		 "Sign": "CCMarianChurchland-Regular",
+		 "T/N": "CCSoliloquous-RegularALLCAPS"
+	};	
+	
 	var speakerFontSizePairs = {};
 	
 	var speakerFontSizePairsStyle1 = {
 		 defaultFontSize: 16,
 		 "SFX": 18,
-		 "FX": 18,
 		 "Handwritten": 18,
-		 "Hand": 18
+		 "Hand": 18,
+		 "Narr": 18,
+		 "Narration": 18
 	};
 	
 	var speakerFontSizePairsStyle2 = {
 		 defaultFontSize: 16,
 		 "SFX": 18,
 		 "FX": 18,
-		 "Handwritten": 16,
-		 "Hand": 16
+		 "Handwritten": 14,
+		 "Hand": 14
 	};
 	
 	var speakerFontSizePairsStyle3 = {
 		 defaultFontSize: 22,
 		 "SFX": 22,
-		 "FX": 22,
 		 "Handwritten": 20,
 		 "Hand": 20,
 		 "Narr": 22,
 		 "Narration": 24,
 		 "Order": 22
+	};
+	
+	var speakerFontSizePairsStyle4 = {
+		 defaultFontSize: 18,
+		 "SFX": 20,
+		 "Handwritten": 20,
+		 "Hand": 20,
+		 "Narr": 18,
+		 "Narration": 18
 	};
 	
     main();
@@ -122,11 +151,11 @@
 		//Set fonts that map to speakers. 
 		//Use lowercase speakers and "PostScript Names" for fonts
 		//Different manga can use differen styles, hardcoded above
-		speakerFontPairs = speakerFontPairsStyleTakeshi;
+		speakerFontPairs = speakerFontPairs7;
 		
 		//Set custom sizes for each speaker. 
 		//Defaults to "defaultFontSIze".
-		speakerFontSizePairs = speakerFontSizePairsStyle2;
+		speakerFontSizePairs = speakerFontSizePairsStyle4;
 			
 		//Select PSDs to import text to
 		var selectedPSDs = [];
@@ -149,7 +178,7 @@
 			open(selectedPSDs[i]);  
 			
 			//Import text for that page
-			importText(txtFileData);			
+			app.activeDocument.suspendHistory("[M] Insert Txt Text to Comic " + i, "importText(txtFileData)");
 			
 			//Save and close
 			psdSaveOptions = new PhotoshopSaveOptions
@@ -157,7 +186,7 @@
 			activeDocument.close(SaveOptions.DONOTSAVECHANGES);
 			
 		}  
-					
+		
 			
     };  	
     function importText(txtFileData) {    
@@ -358,7 +387,7 @@
 			}
 			
 			//Only keep track of lines with text
-			if(lineText.length > 1) pageLines.push(new TextLine(speakerText,lineText,extraText));  
+			if(lineText.length > 0) pageLines.push(new TextLine(speakerText,lineText,extraText));  
 		}
 		
 		return pageLines;
@@ -371,21 +400,33 @@
 	function getTextboxPositionXY(index,totalLines) {
 		
 		var doc = activeDocument;
+		var numberOfColumns = getNumberOfColumns(totalLines);
 		var documentWidth = doc.width.value;
-		var textboxWidth = documentWidth / 4;
-		var horizontalOrder = (index) % 4;
+		var textboxWidth = documentWidth / numberOfColumns;
+		var horizontalOrder = (index) % numberOfColumns;
 
 		var outputX = documentWidth - ((horizontalOrder * textboxWidth) + 150);
 		
-		var doc = activeDocument;
 		var documentHeight = doc.height.value;
-		var numberOfRows = Math.ceil(totalLines / 4);
-		var currentRow = Math.floor(index / 4); //First row is 0
+		var numberOfRows = Math.ceil(totalLines / numberOfColumns);
+		var currentRow = Math.floor(index / numberOfColumns); //First row is 0
+		var distanceBetweenRows = documentHeight/numberOfRows;
 				
-		var outputY =  ((currentRow) * 300 + 50);	
+		var outputY =  ((currentRow) * distanceBetweenRows + 50);	
 		
 		return Array(outputX, outputY);
 		
+	}	
+	
+	function getNumberOfColumns(totalLines) {
+		
+		if (totalLines <= 10) {
+			return 2;
+		} else if (totalLines <= 15) {
+			return 3;
+		}
+		
+		return 4;		
 	}	
 	
 	function getTextboxWidth(doc, lineText)
