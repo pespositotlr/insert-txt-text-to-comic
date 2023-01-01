@@ -77,7 +77,7 @@
 		 "Ann": "CCHushHush-RegularVERTICALSCALING120"
 	};	
 	
-	var speakerFontPairs6 = {
+	var speakerFontPairsStyle6 = {
 		 defaultFont: "CCFaceFrontALLCAPS",
 		 "SFX": "CCShoutOut",
 		 "FX": "CCShoutOut",
@@ -90,7 +90,7 @@
 		 "T/N": "BlueHighway-Regular"
 	};	
 	
-	var speakerFontPairs7 = {
+	var speakerFontPairsStyle7 = {
 		 defaultFont: "ReadyforAnythingBB-RegularVERTICALSCALING140HORIZONTALSCALING140",
 		 "SFX": "FullBleedBB",
 		 "FX": "FullBleedBB",
@@ -105,6 +105,28 @@
 		 "TV": "NightmarkBB-RegularVERTICALSCALING140HORIZONTALSCALING130",
 		 "Sign": "CCMarianChurchland-Regular",
 		 "T/N": "CCSoliloquous-RegularALLCAPS"
+	};	
+	
+	var speakerFontPairsStyle8 = {
+		 defaultFont: "DigitalStrip",
+		 "SFX": "EstoyBueno",
+		 "FX": "EstoyBueno",
+		 "Handwritten": "Denne's-Summer",
+		 "Hand": "Denne's-Summer",
+		 "Narr": "SanDiego2002",
+		 "Narration": "GaramondPremrPro-Smbd",
+		 "Thought": "GaramondPremrPro-Smbd",
+		 "Thoughts": "GaramondPremrPro-Smbd",
+		 "T/N": "BlueHighway-Regular"
+	};	
+	
+	var speakerFontPairsStyle9 = {
+		 defaultFont: "CloudsplitterUCBBVERTICALSCALING140HORIZONTALSCALING130",
+		 "Title": "Appareo-Black",
+		 "Narration": "CCSoothsayer-Light",
+		 "Dracula": "Eckmann",
+		 "Typewriter": "butterbrotpapier",
+		 "T/N": "BlueHighway-Regular"
 	};	
 	
 	var speakerFontSizePairs = {};
@@ -145,17 +167,25 @@
 		 "Narration": 18
 	};
 	
+	var speakerFontSizePairsStyle5 = {
+		 defaultFontSize: 88,
+		 "Title": 80,
+		 "Narration": 80,
+		 "Dracula": 120,
+		 "Typewriter": 140
+	};
+	
     main();
     function main(){  		
 	
 		//Set fonts that map to speakers. 
 		//Use lowercase speakers and "PostScript Names" for fonts
 		//Different manga can use differen styles, hardcoded above
-		speakerFontPairs = speakerFontPairs7;
+		speakerFontPairs = speakerFontPairsStyle4;
 		
 		//Set custom sizes for each speaker. 
 		//Defaults to "defaultFontSIze".
-		speakerFontSizePairs = speakerFontSizePairsStyle4;
+		speakerFontSizePairs = speakerFontSizePairsStyle1;
 			
 		//Select PSDs to import text to
 		var selectedPSDs = [];
@@ -431,6 +461,7 @@
 	
 	function getTextboxWidth(doc, lineText)
 	{
+		//Assume if the line is longer then the textbox should be wider
 		if (lineText.length < 10)
 		{
 			return 80;
@@ -442,12 +473,16 @@
 		{
 			return doc.width.value / 10;
 		}
-		
-		return doc.width.value / 8;
+		else if (lineText.length < 70)
+		{
+			return doc.width.value / 8;
+		}		
+		return doc.width.value / 6;
 	}
 	
 	function getTextboxHeight(doc, lineText)
 	{
+		//Assumes most textboxes are tall rectangles
 		if (lineText.length < 10)
 		{
 			return 50;
@@ -459,7 +494,13 @@
 			return 150;
 		}
 		
-		return lineText.length * 3 + 20;
+		if ((lineText.length * 2.5 + 20) < 400)
+		{
+			return lineText.length * 2.5 + 20;
+		}
+		
+		//Assume a maxinum height of 400 
+		return 400;
 	}
 	
 	function getFontSize(speaker) {
