@@ -34,100 +34,12 @@
 	
 	var speakerFontPairsStyle2 = {
 		defaultFont: "WildWordsCustomRoman",
-		"SFX": "BottenbrekerT.V.",
-		"FX": "BottenbrekerT.V.",
+		"SFX": "BottenbrekerT.V.ALLCAPS",
+		"FX": "BottenbrekerT.V.ALLCAPS",
 		"Handwritten": "WashedPurple1",
 		"Hand": "WashedPurple1"
 	};	
 	
-	var speakerFontPairsStyle3 = {
-		defaultFont: "SanDiego2005BB",
-		"SFX": "BottenbrekerT.V.",
-		"FX": "BottenbrekerT.V.",
-		"Handwritten": "WashedPurple1",
-		"Hand": "WashedPurple1",
-		"Yell": "SanDiego2002"
-	};	
-	
-	var speakerFontPairsStyle4 = {
-		 defaultFont: "WildWordsCustomRoman",
-		 "SFX": "WildWordsCustomRoman",
-		 "FX": "WildWordsCustomRoman",
-		 "Handwritten": "WashedPurple1",
-		 "Hand": "WashedPurple1",
-		 "Narr": "DigitalStrip",
-		 "Narration": "DigitalStrip",
-		 "Order": "DigitalStrip",
-		 "T/N": "WildWordsCustomRoman"
-	};
-	
-	var speakerFontPairsStyle5 = {
-		 defaultFont: "CCJoeKubertVERTICALSCALING120",
-		 "SFX": "DKLiquidEmbraceVERTICALSCALING120",
-		 "FX": "DKLiquidEmbraceVERTICALSCALING120",
-		 "Handwritten": "CloudsplitterLCBB-BoldVERTICALSCALING140HORIZONTALSCALING120",
-		 "Hand": "CloudsplitterLCBB-BoldVERTICALSCALING140HORIZONTALSCALING120",
-		 "Narr": "CCJeffCampbellVERTICALSCALING120",
-		 "Narration": "CCJeffCampbellVERTICALSCALING120",
-		 "Box": "CCJeffCampbellVERTICALSCALING120",
-		 "T/N": "CCJoeKubertVERTICALSCALING120",
-		 "Sign": "CCMarianChurchland-Regular",
-		 "Title": "TetsubinGothic-RegularALLCAPSVERTICALSCALING120HORIZONTALSCALING95",
-		 "Announcer": "CCHushHush-RegularVERTICALSCALING120",
-		 "Ann": "CCHushHush-RegularVERTICALSCALING120"
-	};	
-	
-	var speakerFontPairsStyle6 = {
-		 defaultFont: "CCFaceFrontALLCAPS",
-		 "SFX": "CCShoutOut",
-		 "FX": "CCShoutOut",
-		 "Handwritten": "AhnbergHand",
-		 "Hand": "AhnbergHand",
-		 "Narr": "SanDiego2002",
-		 "Narration": "SanDiego2002",
-		 "Thought": "CCALikelyStory",
-		 "Thoughts": "CCALikelyStory",
-		 "T/N": "BlueHighway-Regular"
-	};	
-	
-	var speakerFontPairsStyle7 = {
-		 defaultFont: "ReadyforAnythingBB-RegularVERTICALSCALING140HORIZONTALSCALING140",
-		 "SFX": "FullBleedBB",
-		 "FX": "FullBleedBB",
-		 "Handwritten": "CCScoundrel-Bold",
-		 "Hand": "CCScoundrel-Bold",
-		 "Narr": "CCSoliloquous-RegularALLCAPSHORIZONTALSCALING90",
-		 "Narration": "CCSoliloquous-RegularALLCAPSHORIZONTALSCALING90",
-		 "Radio": "NightmarkBB-RegularVERTICALSCALING140HORIZONTALSCALING130",
-		 "Recorder": "NightmarkBB-RegularVERTICALSCALING140HORIZONTALSCALING130",
-		 "Tape": "NightmarkBB-RegularVERTICALSCALING140HORIZONTALSCALING130",
-		 "Phone": "NightmarkBB-RegularVERTICALSCALING140HORIZONTALSCALING130",
-		 "TV": "NightmarkBB-RegularVERTICALSCALING140HORIZONTALSCALING130",
-		 "Sign": "CCMarianChurchland-Regular",
-		 "T/N": "CCSoliloquous-RegularALLCAPS"
-	};	
-	
-	var speakerFontPairsStyle8 = {
-		 defaultFont: "DigitalStrip",
-		 "SFX": "EstoyBueno",
-		 "FX": "EstoyBueno",
-		 "Handwritten": "Denne's-Summer",
-		 "Hand": "Denne's-Summer",
-		 "Narr": "SanDiego2002",
-		 "Narration": "GaramondPremrPro-Smbd",
-		 "Thought": "GaramondPremrPro-Smbd",
-		 "Thoughts": "GaramondPremrPro-Smbd",
-		 "T/N": "BlueHighway-Regular"
-	};	
-	
-	var speakerFontPairsStyle9 = {
-		 defaultFont: "CloudsplitterUCBBVERTICALSCALING140HORIZONTALSCALING130",
-		 "Title": "Appareo-Black",
-		 "Narration": "CCSoothsayer-Light",
-		 "Dracula": "Eckmann",
-		 "Typewriter": "butterbrotpapier",
-		 "T/N": "BlueHighway-Regular"
-	};	
 	
 	var speakerFontSizePairs = {};
 	
@@ -148,40 +60,13 @@
 		 "Hand": 14
 	};
 	
-	var speakerFontSizePairsStyle3 = {
-		 defaultFontSize: 22,
-		 "SFX": 22,
-		 "Handwritten": 20,
-		 "Hand": 20,
-		 "Narr": 22,
-		 "Narration": 24,
-		 "Order": 22
-	};
-	
-	var speakerFontSizePairsStyle4 = {
-		 defaultFontSize: 18,
-		 "SFX": 20,
-		 "Handwritten": 20,
-		 "Hand": 20,
-		 "Narr": 18,
-		 "Narration": 18
-	};
-	
-	var speakerFontSizePairsStyle5 = {
-		 defaultFontSize: 88,
-		 "Title": 80,
-		 "Narration": 80,
-		 "Dracula": 120,
-		 "Typewriter": 140
-	};
-	
     main();
     function main(){  		
 	
 		//Set fonts that map to speakers. 
 		//Use lowercase speakers and "PostScript Names" for fonts
 		//Different manga can use differen styles, hardcoded above
-		speakerFontPairs = speakerFontPairsStyle4;
+		speakerFontPairs = speakerFontPairsStyle1;
 		
 		//Set custom sizes for each speaker. 
 		//Defaults to "defaultFontSIze".
@@ -268,6 +153,8 @@
 		
 		//Check for forced ALL CAPS (Fontname will have ALLCAPS at the end)
 		var fontName = getFontName(speaker, line);   
+		if(!fontName)
+			fontName = speakerFontPairs.defaultFont;
 		textProperty.capitalization = getCapitalization(fontName);
 		
 		//Check for forced horizontal/vertical scaling. (Fontname will have VERTICALSCALING### or HORIZONTALSCALING### at the end)
@@ -464,10 +351,10 @@
 		//Assume if the line is longer then the textbox should be wider
 		if (lineText.length < 10)
 		{
-			return 80;
+			return doc.width.value / 14;
 		} else if (lineText.length < 20)
 		{
-			return 100;
+			return doc.width.value / 12;
 		}
 		else if (lineText.length < 35)
 		{
@@ -485,22 +372,21 @@
 		//Assumes most textboxes are tall rectangles
 		if (lineText.length < 10)
 		{
-			return 50;
+			return doc.height.value / 14;
 		} else if (lineText.length < 30)
 		{
-			return 100;
+			return doc.height.value / 12;
 		} else if (lineText.length < 90)
 		{
-			return 150;
+			return doc.height.value / 8;
 		}
 		
 		if ((lineText.length * 2.5 + 20) < 400)
 		{
-			return lineText.length * 2.5 + 20;
+			return doc.height.value / 6;
 		}
 		
-		//Assume a maxinum height of 400 
-		return 400;
+		return doc.height.value / 5;
 	}
 	
 	function getFontSize(speaker) {
